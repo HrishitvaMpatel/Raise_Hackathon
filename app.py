@@ -142,3 +142,10 @@ def post_to_bluesky_route():
 @app.route('/api/list-images', methods=['GET'])
 def list_images_route():
     return list_images()
+
+# For Vercel deployment
+if __name__ == '__main__':
+    app.run(debug=True)
+
+# Export the app for Vercel
+application = app

@@ -980,7 +980,7 @@ def ask_graph_question():
     answer = f"You asked: {question} (answer logic goes here)"
     return jsonify({'answer': answer})
 
-from rag_ques import retrieve_relevant_rows, generate_gemini_answer
+from rag_ques import retrieve_relevant_rows, generate_groq_answer
 
 @app.route('/ask_question', methods=['POST'])
 def ask_question():
@@ -988,7 +988,7 @@ def ask_question():
     question = data.get('question', '')
     results = retrieve_relevant_rows(question)
     context = results.to_string(index=False) if not results.empty else "No relevant data found."
-    answer = generate_gemini_answer(question, context)
+    answer = generate_groq_answer(question, context)
     return jsonify({'answer': answer})
 
 

@@ -1,26 +1,25 @@
 import os
 import pandas as pd
-import google.generativeai as genai
 import re
+from groq import Groq
+from dotenv import load_dotenv
 
-GEMINI_API_KEY = "AIzaSyA2zJEBibJuH4Of7wxp0InifK0uw9gNMzE"
-genai.configure(api_key=GEMINI_API_KEY)
+load_dotenv()
 
+groq_client = Groq(api_key=os.environ["GROQ_API_KEY"])
+
+# --- Load CSVs ---
 CSV_PATH_1 = os.path.join('data', 'analysis_results.csv')
 CSV_PATH_2 = os.path.join('data', 'ANALYSIS.csv')
 df1 = pd.read_csv(CSV_PATH_1)
 df2 = pd.read_csv(CSV_PATH_2)
 df = pd.concat([df1, df2], ignore_index=True)
-# CSV_PATH = os.path.join('data', 'analysis_results.csv')
-# df = pd.read_csv(CSV_PATH)
 
-# Helper: extract keywords (words, quoted phrases, names)
+# Helper: extract keywords
 def extract_keywords(query):
-    # Extract quoted phrases or words
     return re.findall(r'"([^"]+)"|(\w+)', query.lower())
 
 def retrieve_relevant_rows(query):
-    # Use all words and quoted phrases as keywords
     raw_keywords = extract_keywords(query)
     keywords = [k[0] if k[0] else k[1] for k in raw_keywords]
     def row_match(row):
@@ -32,12 +31,10 @@ def retrieve_relevant_rows(query):
 def format_context(rows, max_rows=10):
     if rows.empty:
         return ""
-    # Limit to max_rows for prompt size
     rows = rows.head(max_rows)
     return rows.to_csv(index=False)
 
-def generate_gemini_answer(question, context):
-    model = genai.GenerativeModel('gemini-2.0-flash')
+def generate_groq_answer(question, context):
     if context.strip():
         prompt = (
             "You are a data assistant. Given the following CSV data rows as background information, "
@@ -52,8 +49,14 @@ def generate_gemini_answer(question, context):
             "Please answer the question using your own knowledge and reasoning: "
             f"{question}"
         )
-    response = model.generate_content(prompt)
-    answer = response.text.strip() if hasattr(response, 'text') else str(response)
-    # Remove Markdown bold (**...**) from the answer
+    
+    response = groq_client.chat.completions.create(
+        model="meta-llama/llama-4-maverick-17b-128e-instruct",
+        messages=[
+            {"role": "system", "content": "You are a data assistant."},
+            {"role": "user", "content": prompt}
+        ],
+    )
+    answer = response.choices[0].message.content.strip()
     answer = re.sub(r'\*\*(.*?)\*\*', r'\1', answer)
     return answer

@@ -1,0 +1,52 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="avaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#feca57;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="avaHair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d2691e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="url(#avaBg)" rx="20"/>
+  
+  <!-- Hair -->
+  <ellipse cx="150" cy="80" rx="65" ry="50" fill="url(#avaHair)"/>
+  <ellipse cx="150" cy="70" rx="60" ry="45" fill="url(#avaHair)"/>
+  
+  <!-- Face -->
+  <ellipse cx="150" cy="120" rx="50" ry="55" fill="#fdbcb4"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="135" cy="110" rx="8" ry="12" fill="white"/>
+  <ellipse cx="165" cy="110" rx="8" ry="12" fill="white"/>
+  <circle cx="135" cy="112" r="5" fill="#2c3e50"/>
+  <circle cx="165" cy="112" r="5" fill="#2c3e50"/>
+  <circle cx="137" cy="110" r="2" fill="white"/>
+  <circle cx="167" cy="110" r="2" fill="white"/>
+  
+  <!-- Eyebrows -->
+  <path d="M125 100 Q135 95 145 100" stroke="#8b4513" stroke-width="3" fill="none"/>
+  <path d="M155 100 Q165 95 175 100" stroke="#8b4513" stroke-width="3" fill="none"/>
+  
+  <!-- Nose -->
+  <ellipse cx="150" cy="125" rx="3" ry="8" fill="#f4a79d"/>
+  
+  <!-- Mouth -->
+  <path d="M140 140 Q150 150 160 140" stroke="#e74c3c" stroke-width="3" fill="none"/>
+  
+  <!-- Body/Clothing -->
+  <rect x="100" y="180" width="100" height="120" fill="#ff6b6b" rx="15"/>
+  <rect x="110" y="190" width="80" height="100" fill="#feca57" rx="10"/>
+  
+  <!-- Fashion accessories -->
+  <circle cx="120" cy="105" r="3" fill="#f39c12"/>
+  <circle cx="180" cy="105" r="3" fill="#f39c12"/>
+  
+  <!-- Text label -->
+  <text x="150" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Ava</text>
+  <text x="150" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Fashion & Lifestyle</text>
+</svg>

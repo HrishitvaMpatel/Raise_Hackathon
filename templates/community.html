@@ -1,0 +1,325 @@
+{% extends "layout.html" %}
+
+{% block title %}Top 10 Influencers Community{% endblock %}
+
+{% block extra_head %}
+<!-- Tailwind CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-white py-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Influencer Search Bar -->
+        <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-3xl shadow-lg p-8 mb-8 flex flex-col items-center">
+            <div class="w-full max-w-xl">
+                <div class="mb-4">
+                    <h4 class="text-2xl font-bold text-gray-800 flex items-center mb-1"><i class="fas fa-search mr-2"></i>Search Any Influencer</h4>
+                    <p class="text-gray-500 text-base">Get detailed information about any content creator or influencer worldwide</p>
+                </div>
+                <div class="mb-3">
+                    <div class="flex rounded-xl border border-blue-200 bg-white shadow-sm focus-within:ring-2 focus-within:ring-purple-300">
+                        <span class="flex items-center px-3 text-purple-500 text-lg"><i class="fas fa-user-star"></i></span>
+                        <input type="text" id="influencerSearch" class="flex-1 py-3 px-4 text-base text-gray-800 bg-transparent focus:outline-none" placeholder="Search for any influencer or content creator..." autocomplete="off">
+                        <button class="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-semibold rounded-r-xl hover:from-indigo-600 hover:to-purple-600 transition" type="button" id="searchBtn">
+                            <i class="fas fa-search"></i>
+                            <span class="btn-text">Search</span>
+                            <div class="btn-loading hidden ml-2">
+                                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <small class="text-gray-500 flex items-center mb-1"><i class="fas fa-lightbulb mr-1"></i>Popular searches:</small>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="suggestion-tag bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm hover:from-indigo-600 hover:to-purple-600 transition" onclick="searchSuggestion('MrBeast')">MrBeast</button>
+                        <button class="suggestion-tag bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm hover:from-indigo-600 hover:to-purple-600 transition" onclick="searchSuggestion('PewDiePie')">PewDiePie</button>
+                        <button class="suggestion-tag bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm hover:from-indigo-600 hover:to-purple-600 transition" onclick="searchSuggestion('Emma Chamberlain')">Emma Chamberlain</button>
+                        <button class="suggestion-tag bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm hover:from-indigo-600 hover:to-purple-600 transition" onclick="searchSuggestion('Markiplier')">Markiplier</button>
+                        <button class="suggestion-tag bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm hover:from-indigo-600 hover:to-purple-600 transition" onclick="searchSuggestion('James Charles')">James Charles</button>
+                        <button class="suggestion-tag bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-2 rounded-full font-medium text-sm hover:from-indigo-600 hover:to-purple-600 transition" onclick="searchSuggestion('Dude Perfect')">Dude Perfect</button>
+                    </div>
+                </div>
+                <!-- Search Results Panel (clean, user-friendly) -->
+                <div id="searchResultsPanel" class="hidden relative w-full max-w-xl mx-auto mt-6">
+                    <div class="bg-white rounded-2xl shadow-2xl border border-gray-100 p-6">
+                        <div id="searchResults" class="space-y-4"></div>
+                    </div>
+                </div>
+                <div id="searchLoading" class="hidden text-center py-8">
+                    <div class="flex flex-col items-center">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500 mb-3"></div>
+                        <h5 class="text-lg font-semibold text-gray-700 mb-1">Searching for influencer details...</h5>
+                        <p class="text-gray-400">Gathering information from multiple sources</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Top 10 Influencers Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-indigo-700 flex items-center justify-center mb-2"><i class="fas fa-crown mr-3"></i>Top 10 Influencers</h1>
+            <p class="text-gray-500 text-lg">Discover the most successful content creators across different categories worldwide</p>
+        </div>
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+                <div class="text-3xl text-indigo-500 mb-2"><i class="fas fa-users"></i></div>
+                <div class="text-2xl font-bold">1.2B+</div>
+                <div class="text-gray-500 text-sm">Total Subscribers</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+                <div class="text-3xl text-indigo-500 mb-2"><i class="fas fa-play-circle"></i></div>
+                <div class="text-2xl font-bold">15K+</div>
+                <div class="text-gray-500 text-sm">Total Videos</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+                <div class="text-3xl text-indigo-500 mb-2"><i class="fas fa-chart-line"></i></div>
+                <div class="text-2xl font-bold">9.2%</div>
+                <div class="text-gray-500 text-sm">Avg Engagement</div>
+            </div>
+            <div class="bg-white rounded-2xl shadow p-6 flex flex-col items-center">
+                <div class="text-3xl text-indigo-500 mb-2"><i class="fas fa-globe"></i></div>
+                <div class="text-2xl font-bold">6</div>
+                <div class="text-gray-500 text-sm">Countries</div>
+            </div>
+        </div>
+        {% if influencers %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {% for influencer in influencers %}
+            <div class="bg-white rounded-3xl shadow-lg p-7 flex flex-col">
+                <div class="flex items-center mb-5">
+                    <svg class="w-20 h-20 rounded-full shadow mr-4" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gradient{{ loop.index }}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <rect width="200" height="200" fill="url(#gradient{{ loop.index }})"/>
+                        <circle cx="100" cy="75" r="30" fill="white" opacity="0.9"/>
+                        <path d="M55 150c0-30 25-45 45-45s45 15 45 45v35H55v-35z" fill="white" opacity="0.9"/>
+                        <text x="100" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" font-weight="bold">
+                            {{ influencer.name.split()[0][:2].upper() }}
+                        </text>
+                    </svg>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 flex items-center">{{ influencer.name }}{% if influencer.verified %}<i class="fas fa-check-circle text-blue-400 ml-2"></i>{% endif %}</h3>
+                        <div class="text-gray-500 text-sm">{{ influencer.channel }}</div>
+                        <div class="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold mt-1">{{ influencer.content_type }}</div>
+                    </div>
+                </div>
+                <div class="inline-block bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-medium mb-3"><i class="fas fa-tag mr-1"></i>{{ influencer.category }}</div>
+                <div class="text-gray-700 text-base mb-4">{{ influencer.description }}</div>
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-indigo-500">{{ influencer.subscribers }}</div>
+                        <div class="text-gray-500 text-xs">Subscribers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-indigo-500">{{ influencer.avg_views }}</div>
+                        <div class="text-gray-500 text-xs">Avg Views</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-indigo-500">{{ influencer.total_videos }}</div>
+                        <div class="text-gray-500 text-xs">Videos</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
+                        <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2.5 rounded-full" style="width: {{ influencer.engagement_rate[:-1]|trim }}%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-500">
+                        <span>Engagement Rate</span>
+                        <span>{{ influencer.engagement_rate }}</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-3">
+                    <div class="flex items-center"><i class="fas fa-calendar mr-1"></i>Joined {{ influencer.joined_date.split('-')[0] }}</div>
+                    <div class="flex items-center"><i class="fas fa-clock mr-1"></i>{{ influencer.avg_video_length }} avg</div>
+                    <div class="flex items-center"><i class="fas fa-handshake mr-1"></i>{{ influencer.brand_partnerships }} partnerships</div>
+                    <div class="flex items-center"><i class="fas fa-trending-up mr-1"></i><span class="text-green-500 font-semibold ml-1">{{ influencer.monthly_growth }}</span></div>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                    <span class="text-gray-400 text-sm flex items-center"><i class="fas fa-globe mr-1"></i>{{ influencer.country }}</span>
+                    <span class="bg-indigo-500 text-white px-3 py-1 rounded-full text-xs font-bold">Top {{ loop.index }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-10">
+            <i class="fas fa-exclamation-circle fa-3x mb-3 text-gray-300"></i>
+            <p class="text-gray-400 text-lg">No influencer data available at the moment.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate engagement bars with a delay
+    setTimeout(() => {
+        const engagementFills = document.querySelectorAll('.engagement-fill');
+        engagementFills.forEach((fill, index) => {
+            setTimeout(() => {
+                const engagement = parseFloat(fill.getAttribute('data-engagement'));
+                const width = Math.min(engagement, 100) + '%';
+                fill.style.width = width;
+            }, index * 200);
+        });
+    }, 500);
+
+    // Add entrance animations
+    const cards = document.querySelectorAll('.influencer-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('influencerSearch');
+    const searchBtn = document.getElementById('searchBtn');
+    const searchResults = document.getElementById('searchResults');
+    const searchLoading = document.getElementById('searchLoading');
+
+    function performSearch() {
+        const query = searchInput.value.trim();
+        const searchResultsPanel = document.getElementById('searchResultsPanel');
+        const searchResults = document.getElementById('searchResults');
+        if (!query) {
+            if (searchResultsPanel) searchResultsPanel.classList.add('hidden');
+            return;
+        }
+
+        // Show loading
+        if (searchLoading) searchLoading.style.display = 'block';
+        if (searchResultsPanel) searchResultsPanel.classList.add('hidden');
+
+        // Call the Tavily search API
+        fetch('/api/tavily_search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name: query })
+        })
+        .then(response => response.json())
+        .then(data => {
+            searchLoading.style.display = 'none';
+            
+            if (data.error) {
+                showSearchError(data.error);
+                return;
+            }
+
+            displaySearchResults(data, query);
+        })
+        .catch(error => {
+            searchLoading.style.display = 'none';
+            showSearchError('An error occurred while searching. Please try again.');
+            console.error('Search error:', error);
+        });
+    }
+
+    function displaySearchResults(data, query) {
+        const searchResultsPanel = document.getElementById('searchResultsPanel');
+        const searchResults = document.getElementById('searchResults');
+        let html = '';
+
+        // Display AI-generated answer if available
+        if (data.answer) {
+            html += `
+                <div class="mb-4 p-5 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-2xl shadow flex flex-col gap-2 border border-indigo-200">
+                    <div class="font-bold text-xl text-indigo-700 mb-1 flex items-center gap-2"><i class='fas fa-robot text-purple-400'></i> About ${query}</div>
+                    <div class="text-gray-700 text-base leading-relaxed">${data.answer}</div>
+                </div>
+            `;
+        }
+
+        // Display search results/sources
+        if (data.results && data.results.length > 0) {
+            data.results.forEach(result => {
+                const shortContent = result.content.length > 200 
+                    ? result.content.substring(0, 200) + '...'
+                    : result.content;
+                html += `
+                    <div class="p-5 bg-white rounded-2xl border border-gray-200 shadow-md flex flex-col gap-2 hover:shadow-lg transition mb-3">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-10 h-10 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-500 text-xl"><i class='fas fa-user'></i></div>
+                            <span class="font-semibold text-indigo-700 text-lg">${result.title}</span>
+                            <a href="${result.url}" target="_blank" class="ml-auto text-xs bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-3 py-1 rounded-full hover:from-indigo-600 hover:to-purple-600 transition flex items-center gap-1">View Source <i class='fas fa-external-link-alt'></i></a>
+                        </div>
+                        <div class="text-gray-600 text-base leading-relaxed">${shortContent}</div>
+                    </div>
+                `;
+            });
+        }
+
+        if (html) {
+            if (searchResults) searchResults.innerHTML = html;
+            if (searchResultsPanel) searchResultsPanel.classList.remove('hidden');
+        } else {
+            showSearchError('No results found for this influencer.');
+        }
+    }
+
+    function showSearchError(message) {
+        const searchResultsPanel = document.getElementById('searchResultsPanel');
+        const searchResults = document.getElementById('searchResults');
+        if (searchResults) {
+            searchResults.innerHTML = `
+                <div class="p-5 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-center shadow flex flex-col items-center">
+                    <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>${message}
+                </div>
+            `;
+        }
+        if (searchResultsPanel) searchResultsPanel.classList.remove('hidden');
+    }
+
+    // Define searchSuggestion globally for inline onclick
+    window.searchSuggestion = function(name) {
+        searchInput.value = name;
+        performSearch();
+    }
+
+    // Event listeners
+    searchBtn.addEventListener('click', performSearch);
+    
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+
+    // Fix: Add event listeners for popular search buttons
+    document.querySelectorAll('.suggestion-tag').forEach(btn => {
+        btn.addEventListener('click', function() {
+            searchInput.value = this.textContent;
+            performSearch();
+        });
+    });
+
+    // Hide search results when clicking outside
+    document.addEventListener('click', function(e) {
+        const searchResultsPanel = document.getElementById('searchResultsPanel');
+        if (!e.target.closest('.search-container') && !e.target.closest('#searchResultsPanel')) {
+            if (searchResultsPanel) searchResultsPanel.classList.add('hidden');
+        }
+    });
+
+    // Show search results panel when focusing on input (if there are results)
+    searchInput.addEventListener('focus', function() {
+        const searchResultsPanel = document.getElementById('searchResultsPanel');
+        const searchResults = document.getElementById('searchResults');
+        if (searchResults && searchResults.innerHTML.trim()) {
+            if (searchResultsPanel) searchResultsPanel.classList.remove('hidden');
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,2 @@
+# This is a placeholder file. In a real implementation, you would add an actual default avatar image here.
+# For now, the application will handle missing images gracefully with the onerror attribute in the HTML.

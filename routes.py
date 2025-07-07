@@ -992,4 +992,98 @@ def ask_question():
     return jsonify({'answer': answer})
 
 
+@app.route('/community')
+@login_required
+def community():
+    """Route for the community panel showing top influencers"""
+    import json
+    import os
+    
+    # Load top influencers data
+    try:
+        json_path = os.path.join(os.path.dirname(__file__), 'data', 'top_influencers.json')
+        logger.debug(f"Loading influencer data from: {json_path}")
+        
+        if not os.path.exists(json_path):
+            logger.error(f"JSON file not found at: {json_path}")
+            top_influencers = []
+        else:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                influencer_data = json.load(f)
+            top_influencers = influencer_data.get('top_influencers', [])
+            logger.debug(f"Loaded {len(top_influencers)} influencers")
+            
+    except FileNotFoundError:
+        logger.error("Top influencers JSON file not found")
+        top_influencers = []
+    except json.JSONDecodeError as e:
+        logger.error(f"Error parsing JSON file: {e}")
+        top_influencers = []
+    except Exception as e:
+        logger.error(f"Unexpected error loading influencer data: {e}")
+        top_influencers = []
+    
+    return render_template('community.html', title='Community - Top Influencers', influencers=top_influencers)
+
+@app.route('/api/community/influencers')
+@login_required
+def api_community_influencers():
+    """API endpoint to get top influencers data"""
+    import json
+    import os
+    
+    try:
+        json_path = os.path.join(os.path.dirname(__file__), 'data', 'top_influencers.json')
+        
+        if not os.path.exists(json_path):
+            logger.error(f"JSON file not found at: {json_path}")
+            return jsonify({'top_influencers': [], 'error': 'Data file not found'})
+            
+        with open(json_path, 'r', encoding='utf-8') as f:
+            influencer_data = json.load(f)
+        return jsonify(influencer_data)
+        
+    except FileNotFoundError:
+        logger.error("Top influencers JSON file not found")
+        return jsonify({'top_influencers': [], 'error': 'File not found'})
+    except json.JSONDecodeError as e:
+        logger.error(f"Error parsing JSON file: {e}")
+        return jsonify({'top_influencers': [], 'error': 'Invalid JSON format'})
+    except Exception as e:
+        logger.error(f"Unexpected error in API: {e}")
+        return jsonify({'top_influencers': [], 'error': 'Server error'})
+
+
+# Import with error handling for tavily
+try:
+    from tavily_search import search_person
+    TAVILY_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"Tavily search not available: {e}")
+    TAVILY_AVAILABLE = False
+    search_person = None
+
+@app.route('/api/tavily_search', methods=['POST'])
+def tavily_search():
+    """Search for influencer information using Tavily API"""
+    if not TAVILY_AVAILABLE:
+        return jsonify({'error': 'Tavily search service is not available. Please install the tavily-python package.'}), 503
+    
+    data = request.get_json()
+    name = data.get('name')
+    
+    if not name:
+        return jsonify({'error': 'Name is required'}), 400
+    
+    try:
+        results = search_person(name)
+        if results:
+            return jsonify(results)
+        else:
+            return jsonify({'error': 'Could not fetch results from Tavily API. Please check your API key configuration.'}), 500
+    except Exception as e:
+        logger.error(f"Tavily search error: {str(e)}")
+        return jsonify({'error': f'Search failed: {str(e)}'}), 500
+
+
 

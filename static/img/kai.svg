@@ -1,0 +1,62 @@
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="kaiBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#48c6ef;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6f86d6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="kaiHair" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b008b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9932cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="300" fill="url(#kaiBg)" rx="20"/>
+  
+  <!-- Hair -->
+  <ellipse cx="150" cy="80" rx="60" ry="45" fill="url(#kaiHair)"/>
+  <path d="M90 80 Q120 60 150 80 Q180 60 210 80 Q180 100 150 85 Q120 100 90 80" fill="url(#kaiHair)"/>
+  
+  <!-- Face -->
+  <ellipse cx="150" cy="125" rx="48" ry="52" fill="#fdbcb4"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="135" cy="115" rx="8" ry="12" fill="white"/>
+  <ellipse cx="165" cy="115" rx="8" ry="12" fill="white"/>
+  <circle cx="135" cy="117" r="5" fill="#4a4a4a"/>
+  <circle cx="165" cy="117" r="5" fill="#4a4a4a"/>
+  <circle cx="137" cy="115" r="2" fill="white"/>
+  <circle cx="167" cy="115" r="2" fill="white"/>
+  
+  <!-- Eyebrows -->
+  <path d="M125 103 Q135 98 145 103" stroke="#8b008b" stroke-width="3" fill="none"/>
+  <path d="M155 103 Q165 98 175 103" stroke="#8b008b" stroke-width="3" fill="none"/>
+  
+  <!-- Nose -->
+  <ellipse cx="150" cy="130" rx="3" ry="8" fill="#f4a79d"/>
+  
+  <!-- Mouth -->
+  <path d="M140 145 Q150 155 160 145" stroke="#e91e63" stroke-width="3" fill="none"/>
+  
+  <!-- Body/Clothing -->
+  <rect x="100" y="180" width="100" height="120" fill="#9c27b0" rx="15"/>
+  <rect x="110" y="190" width="80" height="100" fill="#e91e63" rx="10"/>
+  
+  <!-- Artistic accessories -->
+  <circle cx="130" cy="140" r="4" fill="#ffeb3b"/>
+  <circle cx="170" cy="140" r="4" fill="#ffeb3b"/>
+  
+  <!-- Paint brush -->
+  <rect x="180" y="200" width="3" height="25" fill="#8d6e63"/>
+  <ellipse cx="181.5" cy="197" rx="5" ry="3" fill="#2196f3"/>
+  
+  <!-- Palette -->
+  <ellipse cx="125" cy="210" rx="8" ry="6" fill="white"/>
+  <circle cx="122" cy="208" r="2" fill="#f44336"/>
+  <circle cx="128" cy="208" r="2" fill="#2196f3"/>
+  <circle cx="125" cy="212" r="2" fill="#ffeb3b"/>
+  
+  <!-- Text label -->
+  <text x="150" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">Kai</text>
+  <text x="150" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="white">Art & Lifestyle</text>
+</svg>

@@ -371,7 +371,13 @@
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100 influencer-card">
                     <div class="card-img-wrapper">
-                        <img src="{{ influencer.image_url | default('/static/img/default-avatar.png') }}" class="card-img-top" alt="{{ influencer.name }}">
+                        {% if influencer.image_url %}
+                        <img src="{{ influencer.image_url }}" class="card-img-top" alt="{{ influencer.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="default-avatar-placeholder" style="height: 200px; background: linear-gradient(45deg, #667eea, #764ba2); color: white; display: flex; justify-content: center; align-items: center; font-size: 3rem; font-weight: bold;">
+                            {{ influencer.name[0].upper() if influencer.name else '?' }}
+                        </div>
+                        {% endif %}
                         <div class="overlay">
                             <span class="followers"><i class="fas fa-users"></i> {% if influencer.followers is defined %}{{ '{:,}'.format(influencer.followers) }}{% else %}N/A{% endif %}</span>
                             <span class="engagement"><i class="fas fa-heart"></i> {{ influencer.engagement_rate }}%</span>
@@ -456,6 +462,137 @@
                         </div>
                         <h5>Track Performance</h5>
                         <p>Access real-time analytics through our dashboard to measure your campaign's success and ROI.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Preview Panel Section -->
+        <div class="preview-section mb-5 animate__animated animate__fadeIn">
+            <div class="section-header text-center">
+                <h2 class="mb-4">Campaign Preview</h2>
+                <p class="text-muted mb-4">See how your virtual influencer will look in action before starting your campaign</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <div class="preview-tabs">
+                                <button class="preview-tab active" data-platform="instagram">
+                                    <i class="fab fa-instagram"></i> Instagram
+                                </button>
+                                <button class="preview-tab" data-platform="tiktok">
+                                    <i class="fab fa-tiktok"></i> TikTok
+                                </button>
+                                <button class="preview-tab" data-platform="youtube">
+                                    <i class="fab fa-youtube"></i> YouTube
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-content">
+                            <!-- Instagram Preview -->
+                            <div class="platform-preview active" id="instagram-preview">
+                                <div class="social-post-mockup">
+                                    <div class="post-header">
+                                        <div class="post-avatar">
+                                            <img src="https://images.unsplash.com/photo-1494790108755-2616b6b29d85?w=50&h=50&fit=crop&crop=face" alt="Ava" id="preview-avatar">
+                                        </div>
+                                        <div class="post-info">
+                                            <h6 id="preview-username">@ava_virtual</h6>
+                                            <small class="text-muted">Sponsored</small>
+                                        </div>
+                                        <div class="post-options">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </div>
+                                    </div>
+                                    <div class="post-image">
+                                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=400&fit=crop" alt="Product showcase" id="preview-content-image">
+                                    </div>
+                                    <div class="post-actions">
+                                        <div class="action-buttons">
+                                            <i class="far fa-heart"></i>
+                                            <i class="far fa-comment"></i>
+                                            <i class="far fa-paper-plane"></i>
+                                        </div>
+                                        <div class="bookmark">
+                                            <i class="far fa-bookmark"></i>
+                                        </div>
+                                    </div>
+                                    <div class="post-stats">
+                                        <strong>1,247 likes</strong>
+                                    </div>
+                                    <div class="post-caption">
+                                        <strong id="preview-handle">ava_virtual</strong> 
+                                        <span id="preview-caption">Loving this amazing product! Check it out 🔥 #sponsored #fashion #lifestyle</span>
+                                    </div>
+                                    <div class="post-comments">
+                                        <small class="text-muted">View all 89 comments</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- TikTok Preview -->
+                            <div class="platform-preview" id="tiktok-preview">
+                                <div class="tiktok-mockup">
+                                    <div class="tiktok-video">
+                                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=300&h=400&fit=crop" alt="TikTok content" class="tiktok-thumbnail">
+                                        <div class="tiktok-overlay">
+                                            <div class="play-button">
+                                                <i class="fas fa-play"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tiktok-info">
+                                        <div class="tiktok-description">
+                                            <p><span id="tiktok-username">@ava_virtual</span></p>
+                                            <p id="tiktok-caption">Amazing product review! 🔥 #productreview #sponsored</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- YouTube Preview -->
+                            <div class="platform-preview" id="youtube-preview">
+                                <div class="youtube-mockup">
+                                    <div class="youtube-video">
+                                        <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=225&fit=crop" alt="YouTube thumbnail" class="youtube-thumbnail">
+                                        <div class="youtube-overlay">
+                                            <div class="youtube-play">
+                                                <i class="fab fa-youtube"></i>
+                                            </div>
+                                            <div class="video-duration">8:24</div>
+                                        </div>
+                                    </div>
+                                    <div class="youtube-info">
+                                        <div class="youtube-title">
+                                            <h6 id="youtube-title">Product Review: Why This Changed Everything!</h6>
+                                        </div>
+                                        <div class="youtube-meta">
+                                            <span id="youtube-channel">Ava Virtual</span> • 847K views • 2 days ago
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-footer">
+                            <div class="preview-stats">
+                                <div class="stat-item">
+                                    <strong>1.2M+</strong>
+                                    <span>Potential Reach</span>
+                                </div>
+                                <div class="stat-item">
+                                    <strong>8.5%</strong>
+                                    <span>Avg Engagement</span>
+                                </div>
+                                <div class="stat-item">
+                                    <strong>$4.20</strong>
+                                    <span>Cost per Engagement</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -663,6 +800,316 @@
         font-weight: bold;
         margin: 0 auto 1rem;
     }
+    
+    /* Preview Panel Styles */
+    .preview-section {
+        background: white;
+        padding: 2rem 0;
+        margin: 2rem 0;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .preview-section .section-header h2 {
+        color: #2c3e50;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .preview-section .section-header p {
+        color: #6c757d;
+        margin-bottom: 1.5rem;
+    }
+    
+    .preview-panel {
+        background: #f8f9fa;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .preview-header {
+        padding: 1rem;
+        border-bottom: 1px solid #e9ecef;
+        background: white;
+    }
+    
+    .preview-tabs {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+    }
+    
+    .preview-tab {
+        padding: 0.5rem 1rem;
+        border: none;
+        background: #f8f9fa;
+        border-radius: 6px;
+        color: #6c757d;
+        font-weight: 500;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .preview-tab.active {
+        background: #667eea;
+        color: white;
+    }
+    
+    .preview-tab:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .preview-content {
+        padding: 1.5rem;
+        min-height: 300px;
+        background: white;
+    }
+    
+    .platform-preview {
+        display: none;
+    }
+    
+    .platform-preview.active {
+        display: block;
+    }
+    
+    /* Instagram Post Mockup */
+    .social-post-mockup {
+        max-width: 320px;
+        margin: 0 auto;
+        border: 1px solid #dbdbdb;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .post-header {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+    
+    .post-avatar img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    
+    .post-info h6 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+    
+    .post-options {
+        margin-left: auto;
+        color: #8e8e8e;
+        font-size: 0.8rem;
+    }
+    
+    .post-image img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+    }
+    
+    .post-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 0.75rem;
+    }
+    
+    .action-buttons i, .bookmark i {
+        font-size: 1.2rem;
+        color: #262626;
+        cursor: pointer;
+    }
+    
+    .post-stats, .post-caption, .post-comments {
+        padding: 0 0.75rem 0.3rem;
+    }
+    
+    .post-stats {
+        font-size: 0.8rem;
+        color: #262626;
+        font-weight: 600;
+    }
+    
+    .post-caption {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+    
+    .post-comments {
+        font-size: 0.8rem;
+        padding-bottom: 0.75rem;
+        color: #8e8e8e;
+    }
+    
+    /* TikTok Mockup */
+    .tiktok-mockup {
+        max-width: 250px;
+        margin: 0 auto;
+        background: #000;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .tiktok-video {
+        position: relative;
+        height: 320px;
+    }
+    
+    .tiktok-thumbnail {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .tiktok-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .play-button {
+        width: 50px;
+        height: 50px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-size: 1.2rem;
+    }
+    
+    .tiktok-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        padding: 1.5rem 0.75rem 0.75rem;
+        color: white;
+    }
+    
+    .tiktok-description p {
+        margin: 0;
+        font-size: 0.8rem;
+    }
+    
+    /* YouTube Mockup */
+    .youtube-mockup {
+        max-width: 320px;
+        margin: 0 auto;
+    }
+    
+    .youtube-video {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .youtube-thumbnail {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+    
+    .youtube-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .youtube-play {
+        font-size: 2.5rem;
+        color: #ff0000;
+        background: rgba(255, 255, 255, 0.9);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .video-duration {
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-size: 0.7rem;
+    }
+    
+    .youtube-info {
+        padding: 0.75rem 0;
+    }
+    
+    .youtube-title h6 {
+        margin: 0 0 0.3rem;
+        font-weight: 600;
+        line-height: 1.3;
+        font-size: 0.9rem;
+    }
+    
+    .youtube-meta {
+        font-size: 0.75rem;
+        color: #606060;
+    }
+    
+    .preview-footer {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-top: 1px solid #e9ecef;
+    }
+    
+    .preview-stats {
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+    }
+    
+    .preview-stats .stat-item strong {
+        display: block;
+        font-size: 1rem;
+        color: #667eea;
+        margin-bottom: 0.2rem;
+        font-weight: 600;
+    }
+    
+    .preview-stats .stat-item span {
+        color: #6c757d;
+        font-size: 0.8rem;
+    }
 </style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -702,7 +1149,7 @@ $(document).ready(function() {
         const rentButtons = document.querySelectorAll('.rent-btn');
         const detailsButtons = document.querySelectorAll('.details-btn');
         const bookingModal = new bootstrap.Modal(document.getElementById('bookingModal'));
-        const influencers = {{ influencers|tojson }};
+        const influencersData = {{ influencers|tojson|safe }};
         
         rentButtons.forEach(button => {
             button.addEventListener('click', function() {
@@ -710,7 +1157,7 @@ $(document).ready(function() {
                 document.getElementById('influencerId').value = influencerId;
                 
                 // Find the influencer in our data
-                const influencer = influencers.find(inf => inf.id === influencerId);
+                const influencer = influencersData.find(inf => inf.id === influencerId);
                 if (influencer) {
                     document.getElementById('bookingModalLabel').textContent = `Rent ${influencer.name}`;
                     updateTotalPrice(influencer.daily_rate, 7); // Default 7 days
@@ -723,7 +1170,7 @@ $(document).ready(function() {
         // Duration change event handler
         document.getElementById('duration').addEventListener('change', function() {
             const influencerId = document.getElementById('influencerId').value;
-            const influencer = influencers.find(inf => inf.id === influencerId);
+            const influencer = influencersData.find(inf => inf.id === influencerId);
             if (influencer) {
                 updateTotalPrice(influencer.daily_rate, this.value);
             }
@@ -788,7 +1235,61 @@ $(document).ready(function() {
         window.open('http://localhost:7860/', '_blank'); // Opens Fooocus UI in a new tab
     });
 
-   
-   
+    // Preview Panel Functionality
+    const previewTabs = document.querySelectorAll('.preview-tab');
+    const platformPreviews = document.querySelectorAll('.platform-preview');
+    
+    previewTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs and previews
+            previewTabs.forEach(t => t.classList.remove('active'));
+            platformPreviews.forEach(p => p.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Show corresponding preview
+            const platform = this.getAttribute('data-platform');
+            document.getElementById(platform + '-preview').classList.add('active');
+        });
+    });
+    
+    // Update preview content based on selected influencer
+    function updatePreviewContent(influencer) {
+        // Update Instagram preview
+        document.getElementById('preview-avatar').src = influencer.image_url;
+        document.getElementById('preview-username').textContent = `@${influencer.name.toLowerCase()}_virtual`;
+        document.getElementById('preview-handle').textContent = `${influencer.name.toLowerCase()}_virtual`;
+        document.getElementById('preview-caption').textContent = `Loving this amazing product! Check it out 🔥 #sponsored #${influencer.specialty.toLowerCase().replace(' & ', ' #')}`;
+        
+        // Update TikTok preview
+        document.getElementById('tiktok-username').textContent = `@${influencer.name.toLowerCase()}_virtual`;
+        document.getElementById('tiktok-caption').textContent = `Amazing product review! 🔥 #productreview #sponsored #${influencer.specialty.toLowerCase().replace(' & ', '')}`;
+        
+        // Update YouTube preview
+        document.getElementById('youtube-title').textContent = `${influencer.specialty} Review: Why This Changed Everything!`;
+        document.getElementById('youtube-channel').textContent = `${influencer.name} Virtual`;
+    }
+    
+    // Update preview when an influencer card is clicked
+    document.querySelectorAll('.influencer-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const influencerId = this.querySelector('.rent-btn').getAttribute('data-influencer-id');
+            const influencer = influencersData.find(inf => inf.id === influencerId);
+            if (influencer) {
+                updatePreviewContent(influencer);
+                // Scroll to preview section
+                document.querySelector('.preview-section').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        });
+    });
+    
+    // Initialize with first influencer
+    if (influencersData && influencersData.length > 0) {
+        updatePreviewContent(influencersData[0]);
+    }
+
 </script>
 {% endblock %}

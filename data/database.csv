@@ -1,2 +1,3 @@
 username,email,password,user_type,date_registered,public_email
 rajat,jhaderajat@gmail.com,scrypt:32768:8:1$sMaciRG4GwJLJjSP$d768a2a55175154bd6eca1d93a57a4a44e43b747126e8c225629f9ca3c989bc0cac37ed8f88e97916162d2b35a467fff412bcdb9a10c370a921c0e61f37c7023,influencer,2025-04-28 04:50:56,True
+Ayush,quantumaqua39@gmail.com,scrypt:32768:8:1$iFHhEokQP30i1qxp$5869eb3a205095ff56a6ce59c6e9d11f2d6180d4f3d6a85a0e392b229b83920a259b71639fd9126081c7463733d4610299db945cd30862e82933a88a8fadfa59,influencer,2025-07-05 14:22:31,True

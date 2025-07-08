@@ -61,11 +61,11 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
-# Import models and create tables
-with app.app_context():
+# Load user from user ID (required by Flask-Login)
+@login_manager.user_loader
+def load_user(user_id):
     from models import User
-    db.create_all()
-    logger.debug("Database tables created")
+    return User.query.get(int(user_id))
 
 # Load user from user ID (required by Flask-Login)
 @login_manager.user_loader
@@ -145,7 +145,25 @@ def list_images_route():
 
 # For Vercel deployment
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Import routes after app and db are configured
+    from routes import *
+
+    # Import models and create tables
+    with app.app_context():
+        from models import User
+        db.create_all()
+        logger.debug("Database tables created")
+    
+    app.run(debug=True, port=5002)
+else:
+    # Import routes when running on production server
+    from routes import *
+    
+    # Import models and create tables
+    with app.app_context():
+        from models import User
+        db.create_all()
+        logger.debug("Database tables created")
 
 # Export the app for Vercel
 application = app

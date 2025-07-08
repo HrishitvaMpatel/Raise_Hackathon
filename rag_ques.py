@@ -68,11 +68,11 @@ def llama_generate_response(prompt_text):
         messages=[
             {
                 "role": "system",
-                "content": "You are like a sponsors. Turn raw input ideas into polished, engaging messages for influencers to reach out."
+                "content": "You are like a sponsor. Turn raw input ideas into polished, engaging messages for influencers. Keep messages CONCISE and under 1000 characters for SMS compatibility. Be professional but friendly."
             },
             {
                 "role": "user",
-                "content": prompt_text
+                "content": f"Create a professional, concise collaboration message (under 1000 characters): {prompt_text}"
             }
         ]
     )

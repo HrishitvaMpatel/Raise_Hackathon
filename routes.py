@@ -1086,7 +1086,7 @@ def tavily_search():
         return jsonify({'error': f'Search failed: {str(e)}'}), 500
 
 
-from twilio_sender.twiml.messaging_response import MessagingResponse
+from twilio.twiml.messaging_response import MessagingResponse
 from twilio_sender import notify_influencer_with_ai
 
 @app.route('/notify_influencer', methods=['POST'])

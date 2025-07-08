@@ -60,3 +60,20 @@ def generate_groq_answer(question, context):
     answer = response.choices[0].message.content.strip()
     answer = re.sub(r'\*\*(.*?)\*\*', r'\1', answer)
     return answer
+
+
+def llama_generate_response(prompt_text):
+    response = groq_client.chat.completions.create(
+        model="meta-llama/llama-4-maverick-17b-128e-instruct",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are like a sponsors. Turn raw input ideas into polished, engaging messages for influencers to reach out."
+            },
+            {
+                "role": "user",
+                "content": prompt_text
+            }
+        ]
+    )
+    return response.choices[0].message.content.strip()
